@@ -8,13 +8,12 @@ interface ButtonProps {
   appName: string;
 }
 
-export const Button = ({ children, className, appName }: ButtonProps) => {
+export function Button({ children }: { children: React.ReactNode }) {
   return (
     <button
-      className={className}
-      onClick={() => alert(`Hello from your ${appName} app!`)}
+      style={{ padding: "8px 16px", background: "black", color: "white" }}
     >
       {children}
     </button>
   );
-};
+}
