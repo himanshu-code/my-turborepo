@@ -4,11 +4,11 @@ import { ReactNode } from "react";
 
 export function AppLayout({ children }: { children: ReactNode }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+    <div className="flex flex-col h-screen">
       <Header />
-      <div style={{ display: "flex", flex: 1 }}>
+      <div className="flex flex-1 overflow-hidden">
         <Sidebar />
-        <main style={{ flex: 1, padding: 20, overflowY: "auto" }}>
+        <main className="flex-1 overflow-y-auto p-8 bg-[var(--color-bg)]">
           {children}
         </main>
       </div>

@@ -2,7 +2,7 @@ export function Header() {
   return (
     <header
       style={{
-        height: 60,
+        height: "60px !important",
         background: "#111",
         color: "white",
         display: "flex",
