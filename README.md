@@ -1,135 +1,121 @@
-# Turborepo starter
+# 🚀 Modern MFE Shell — App Web
 
-This Turborepo starter is maintained by the Turborepo core team.
+This application serves as the **App Shell (Container)** in our **Microfrontend (MFE) architecture**.  
+It provides **global layout, routing, theming, and shared services** while composing feature microfrontends at build time.
 
-## Using this example
+---
 
-Run the following command:
+## 🏗️ Architecture: Build-Time Microfrontends
 
-```sh
-npx create-turbo@latest
-```
+We use a **Build-Time MFE strategy** inside a **Turborepo** monorepo.
 
-## What's inside?
+Instead of loading MFEs at runtime, feature domains are developed as independent packages and composed during the build.
 
-This Turborepo includes the following packages/apps:
+### ✨ Benefits
 
-### Apps and Packages
+- 🔒 Type Safety — End-to-end TypeScript across MFEs  
+- ⚡ Performance — Optimized shared bundles & tree-shaking  
+- 🧩 Modularity — Clear domain boundaries per feature  
+- 🧠 Developer Experience — Fast HMR across the monorepo  
+- 🎯 Consistency — Shared design system & theme tokens  
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+---
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+## 🎨 Styling System — Tailwind CSS v4
 
-### Utilities
+The shell owns the design system and global theme using Tailwind CSS v4 (CSS-first).
 
-This Turborepo has some additional tools already setup for you:
+### 🌍 Global Theme
+Defined in: apps/web/app/globals.css
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+Using Tailwind v4’s @theme directive and CSS variables to ensure all MFEs share:
 
-### Build
+- Color palette  
+- Spacing scale  
+- Typography  
+- Radius & shadows  
+- Dark mode support  
 
-To build all apps and packages, run the following command:
+### 📦 Shared Utility Scanning
 
-```
-cd my-turborepo
+Tailwind scans all MFE packages via:
 
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
+@source "../../../packages/*/src/**/*.{js,ts,jsx,tsx,mdx}";
 
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
-```
+This ensures utility classes used inside MFEs are included in the final build.
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+---
 
-```
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
+## 📂 Project Structure
 
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
+apps/
+  web/              → Next.js App Shell
 
-### Develop
+packages/
+  ui/               → Shared design system & layout components
+  dashboard/        → Dashboard MFE (Analytics, Feed)
+  profile/          → Profile MFE (User Info, Stats)
 
-To develop all apps and packages, run the following command:
+### 🔗 How MFEs Are Integrated
 
-```
-cd my-turborepo
+MFEs are imported as internal packages:
 
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
+import { DashboardPage } from "@repo/dashboard";
+import { ProfilePage } from "@repo/profile";
 
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
+The shell provides layout and routing, while MFEs focus only on feature UI & logic.
 
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+---
 
-```
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
+## 🧱 Shell Responsibilities
 
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
+The App Shell owns:
 
-### Remote Caching
+- 🧭 Application routing  
+- 🧩 Global layout (Header, Sidebar, Content area)  
+- 🎨 Theming & design tokens  
+- 🔐 Authentication boundary (future)  
+- 📦 Shared services integration  
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+MFEs remain UI-domain focused and consume shared packages.
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+---
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+## 🚀 Getting Started
 
-```
-cd my-turborepo
+### 1️⃣ Install Dependencies
 
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
+npm install
 
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
+### 2️⃣ Start Development
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+npm run dev
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+The shell will run at:
+http://localhost:3000
 
-```
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
+Turborepo runs all dependent packages with caching and parallel builds.
 
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
+---
 
-## Useful Links
+## 🛠️ Tech Stack
 
-Learn more about the power of Turborepo:
+Framework: Next.js 15+ (App Router)  
+Styling: Tailwind CSS v4  
+Icons: Lucide React  
+Monorepo: Turborepo  
+Language: TypeScript  
+Package Manager: npm  
 
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+---
+
+## 🧠 Summary
+
+This project demonstrates a scalable frontend platform architecture where:
+
+✔ MFEs are modular but integrated at build time  
+✔ A shared design system ensures UI consistency  
+✔ The shell acts as the orchestration layer  
+✔ The system is optimized for performance and DX  
+
+This mirrors how modern enterprise SaaS frontends are structured.
